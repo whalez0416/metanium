@@ -19,6 +19,7 @@ pip install -r requirements.txt
    - `FACEBOOK_AD_ACCOUNT_ID`: 광고 계정 ID (예: `act_123456789`)
    - `FACEBOOK_APP_ID`: 메타 앱 ID
    - `FACEBOOK_APP_SECRET`: 메타 앱 시크릿 코드
+   - `DISCORD_WEBHOOK_URL`: 알림을 받을 디스코드 채널의 웹후크 URL (선택 사항)
 
 ---
 
@@ -31,7 +32,15 @@ python fetch_performance.py
 ```
 - 실행 결과로 터미널에 광고별 성과 요약과 **AI 권장 사항(Suggestion)**이 출력됩니다.
 
-### 2-2. 의사결정 이력 확인
+### 2-2. 상시 모니터링 및 알림 실행
+광고를 24시간 감시하고 문제 발생 시 디스코드로 알림을 받으려면 아래 명령어를 실행합니다.
+```bash
+python monitor_service.py
+```
+- 이 스크립트는 종료하지 않는 한 1시간마다 자동으로 성과를 체크합니다.
+- 성과가 급격히 악화되거나 예산 낭비가 감지되면 설정된 디스코드 채널로 실시간 경고를 보냅니다.
+
+### 2-3. 의사결정 이력 확인
 AI가 제안한 `PAUSE`(중단) 또는 `SCALE UP`(증액) 내역은 자동으로 `decision_history.json` 파일에 저장됩니다.
 - 이 파일을 열어 AI가 왜 그런 제안을 했는지 상세 이유(reason_suggested)를 확인할 수 있습니다.
 
