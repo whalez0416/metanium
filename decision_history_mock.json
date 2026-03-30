@@ -1,0 +1,38 @@
+[
+    {
+        "timestamp": "2026-03-30 21:39:03",
+        "action_suggested": "PAUSE",
+        "ad_id": "ad_high_cpa_456",
+        "ad_name": "고CPA 광고 (중단 필요)",
+        "reason_suggested": "PAUSE (High CPA > 1.5x Target)",
+        "marketer_decision": "PENDING",
+        "marketer_reason": ""
+    },
+    {
+        "timestamp": "2026-03-30 21:39:03",
+        "action_suggested": "SCALE",
+        "ad_id": "ad_good_789",
+        "ad_name": "효율 좋은 광고 (증액 필요)",
+        "reason_suggested": "SCALE UP (+20% Budget - Rule 3 Match)",
+        "marketer_decision": "PENDING",
+        "marketer_reason": ""
+    },
+    {
+        "timestamp": "2026-03-30 21:44:51",
+        "action_suggested": "SCALE",
+        "ad_id": "ad_ab_winner",
+        "ad_name": "A/B 테스트 승리 소재",
+        "reason_suggested": "SCALE UP (A/B 테스트 승리: 최고 효율 소재)",
+        "marketer_decision": "PENDING",
+        "marketer_reason": ""
+    },
+    {
+        "timestamp": "2026-03-30 21:44:51",
+        "action_suggested": "PAUSE",
+        "ad_id": "ad_ab_loser",
+        "ad_name": "A/B 테스트 패배 소재 (CPA 높음)",
+        "reason_suggested": "PAUSE (고CPA > 타겟의 1.5배)",
+        "marketer_decision": "PENDING",
+        "marketer_reason": ""
+    }
+]
