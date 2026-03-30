@@ -1,0 +1,10 @@
+{
+    "리드_캠페인_A": {
+        "target_cpa": 12000,
+        "protect_hours": 48
+    },
+    "구매_고단가_캠페인": {
+        "target_cpa": 45000,
+        "protect_hours": 96
+    }
+}

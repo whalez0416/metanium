@@ -57,6 +57,14 @@ def run_demo():
             'spend': 22000, 'leads': 0, 'cpa': 0, 'ctr': 0.4, # 전환 없이 캠페인 평균 이상 지출
             'created_at': (now_utc - datetime.timedelta(days=15)).isoformat(),
             'total_amount_spent': 400000
+        },
+        {
+            'scenario': '[캠페인 맞춤 타겟]',
+            'ad_name': '고단가_제품_광고_1',
+            'campaign_name': '구매_고단가_캠페인', # Config상 target_cpa: 45000
+            'spend': 40000, 'leads': 1, 'cpa': 40000, 'ctr': 0.8, # 일반 타겟(2만)이면 PAUSE 대상이나, 여기선 MAINTAIN
+            'created_at': (now_utc - datetime.timedelta(days=10)).isoformat(),
+            'total_amount_spent': 500000
         }
     ]
 

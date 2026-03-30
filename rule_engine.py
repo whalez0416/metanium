@@ -1,10 +1,14 @@
 import datetime
 import pandas as pd
+import json
+import os
 
 class PlaybookRuleEngine:
-    def __init__(self, playbook_path='marketer_playbook.txt'):
+    def __init__(self, playbook_path='marketer_playbook.txt', target_cpa=20000):
         self.playbook_path = playbook_path
         self.rules = self._load_rules()
+        self.global_target_cpa = target_cpa
+        self.configs = self.load_campaign_configs()
 
     def _load_rules(self):
         """플레이북 파일에서 규칙을 로드합니다. (현재는 단순 저장용)"""
@@ -13,6 +17,23 @@ class PlaybookRuleEngine:
                 return f.readlines()
         except FileNotFoundError:
             return []
+
+    def load_campaign_configs(self):
+        """캠페인별 설정을 campaign_configs.json에서 로드합니다."""
+        config_path = 'campaign_configs.json'
+        if os.path.exists(config_path):
+            try:
+                with open(config_path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except Exception as e:
+                print(f"설정 파일 로드 중 오류 발생: {e}")
+        return {}
+
+    def get_campaign_setting(self, campaign_name, key, default):
+        """특정 캠페인의 설정을 가져오거나 기본값을 반환합니다."""
+        if campaign_name in self.configs:
+            return self.configs[campaign_name].get(key, default)
+        return default
 
     def evaluate(self, ad_data):
         """
@@ -45,7 +66,11 @@ class PlaybookRuleEngine:
                 
                 hours_since_creation = (now - created_at).total_seconds() / 3600
                 
-                if hours_since_creation < 72 or total_spend < 50000:
+                # 캠페인별 맞춤 설정 적용 (없으면 기본값 72시간 사용)
+                campaign_name = ad_data.get('campaign_name', 'default')
+                protect_hours = self.get_campaign_setting(campaign_name, 'protect_hours', 72)
+
+                if hours_since_creation < protect_hours or total_spend < 50000:
                     suggestions.append({
                         'rule_id': 2,
                         'action': 'KEEP',
@@ -71,8 +96,10 @@ class PlaybookRuleEngine:
 
         # 2. 지표 기반 규칙
         is_weekend = datetime.datetime.now().weekday() >= 5
-        # 타겟 CPA (예시: 20,000원)
-        target_cpa = 20000
+        
+        # 캠페인별 타겟 CPA 가져오기 (없으면 글로벌 타겟 사용)
+        campaign_name = row.get('campaign_name', 'default')
+        target_cpa = self.get_campaign_setting(campaign_name, 'target_cpa', self.global_target_cpa)
         
         # 주말 CPA 버퍼 (규칙 1: 20-30% 높게 허용)
         effective_target_cpa = target_cpa * 1.3 if is_weekend else target_cpa
@@ -105,11 +132,17 @@ if __name__ == "__main__":
     }
     print(f"신규 소재 권장 사항: {engine.get_action_recommendation(mock_row_new)}")
     
-    # 주말 정책 테스트
-    mock_row_weekend = {
+    # 캠페인별 맞춤 설정 테스트
+    print(f"\n[캠페인별 설정 테스트]")
+    mock_row_custom = {
+        'campaign_name': '리드_캠페인_A', # Config상 target_cpa: 12000
         'leads': 1,
-        'spend': 25000,
-        'cpa': 25000,
-        'ctr': 1.0
+        'spend': 15000,
+        'cpa': 15000,
+        'ctr': 1.0,
+        'created_at': (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=10)).isoformat(),
+        'total_amount_spent': 200000
     }
-    print(f"주말 고CPA 권장 사항: {engine.get_action_recommendation(mock_row_weekend)}")
+    # 리드_캠페인_A의 타겟(12000) 기준 1.25배이므로 평일 기준 PAUSE (1.5배 초과가 아니므로 MAINTAIN일수도 있으나 로직 확인 필요)
+    # 현재 로직: cpa > target * 1.5 -> PAUSE, cpa > target -> MAINTAIN
+    print(f"리드_캠페인_A (타겟 1.2만) 권장 사항: {engine.get_action_recommendation(mock_row_custom)}")
