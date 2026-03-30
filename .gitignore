@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# Environment Variables (CRITICAL: DO NOT COMMIT)
+.env
+.env.local
+
+# Project Specific
+metanium_log.db
+daily_performance_log.csv
+decision_log.json
+
+# IDEs
+.vscode/
+.idea/

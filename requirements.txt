@@ -1,0 +1,3 @@
+facebook-business
+pandas
+python-dotenv
