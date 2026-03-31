@@ -1,10 +1,20 @@
 {
     "리드_캠페인_A": {
         "target_cpa": 12000,
-        "protect_hours": 48
+        "protect_hours": 48,
+        "max_daily_budget": 100000,
+        "auto_pilot": true
     },
     "구매_고단가_캠페인": {
         "target_cpa": 45000,
-        "protect_hours": 96
+        "protect_hours": 96,
+        "max_daily_budget": 200000,
+        "auto_pilot": false
+    },
+    "[민병원] 갑상선 센터_전환형_검진유도_신규": {
+        "target_cpa": 15000,
+        "protect_hours": 72,
+        "max_daily_budget": 100000,
+        "auto_pilot": true
     }
 }

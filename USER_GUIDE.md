@@ -15,11 +15,20 @@ pip install -r requirements.txt
 ### 1-2. API 인증 정보 설정 (.env)
 1. 프로젝트 루트 폴더에 있는 `.env` 파일을 엽니다.
 2. 아래의 항목들에 본인의 메타 광고 계정 정보를 입력합니다.
-   - `FACEBOOK_ACCESS_TOKEN`: 메타 개발자 센터에서 발급받은 액세스 토큰
+   - `FACEBOOK_ACCESS_TOKEN`: 메타 비즈니스 설정에서 발급받은 영구 액세스 토큰 (1-3 참고)
    - `FACEBOOK_AD_ACCOUNT_ID`: 광고 계정 ID (예: `act_123456789`)
    - `FACEBOOK_APP_ID`: 메타 앱 ID
    - `FACEBOOK_APP_SECRET`: 메타 앱 시크릿 코드
    - `DISCORD_WEBHOOK_URL`: 알림을 받을 디스코드 채널의 웹후크 URL (선택 사항)
+
+### 1-3. 영구 토큰 발급 (시스템 유저 추천)
+단기 토큰은 1~2시간 내에 만료되므로, 아래 단계에 따라 **영구 토큰**을 발급받으세요.
+1. **비즈니스 설정** 접속: [business.facebook.com/settings](https://business.facebook.com/settings)
+2. **시스템 유저 생성**: [사용자] > [시스템 유저]에서 `추가` 버튼 클릭 (역할: 관리자)
+3. **자산 연결**: 생성된 유저 클릭 > [자산 추가] > [광고 계정] 선택 > **'광고 계정 관리'** 권한 활성화
+4. **토큰 생성**: [새 토큰 생성] 클릭 > 앱 선택 > 아래 **필수 권한** 체크 후 생성
+   - `ads_read`, `ads_management`, `business_management`
+5. 발급된 토큰을 복사하여 `.env` 파일의 `FACEBOOK_ACCESS_TOKEN`에 입력합니다.
 
 ---
 
