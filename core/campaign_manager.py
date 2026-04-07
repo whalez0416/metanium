@@ -41,7 +41,7 @@ class MetaCampaignManager:
         print(f"캠페인 생성 완료: {campaign['id']}")
         return campaign['id']
 
-    def create_ad_set(self, campaign_id, name, daily_budget, targeting, page_id):
+    def create_ad_set(self, campaign_id, name, daily_budget, targeting, page_id, optimization_goal='LEAD_GENERATION', destination_type='ON_AD'):
         """광고 세트를 생성합니다."""
         if self.dry_run:
             print(f"[DRY RUN] 광고 세트 생성: {name} (예산: {daily_budget}, 페이지: {page_id})")
@@ -52,13 +52,16 @@ class MetaCampaignManager:
             'campaign_id': campaign_id,
             'daily_budget': daily_budget,
             'billing_event': 'IMPRESSIONS',
-            'optimization_goal': 'LEAD_GENERATION',
+            'optimization_goal': optimization_goal,
             'bid_strategy': 'LOWEST_COST_WITHOUT_CAP',
             'targeting': targeting,
-            'promoted_object': {'page_id': page_id},
-            'destination_type': 'ON_AD', # 픽셀 요구 방지 (페이스북 내 리드 폼 사용)
             'status': AdSet.Status.paused,
         }
+
+        if optimization_goal == 'LEAD_GENERATION':
+            params['promoted_object'] = {'page_id': page_id}
+            params['destination_type'] = destination_type
+        
         ad_set = self.account.create_ad_set(params=params)
         print(f"광고 세트 생성 완료: {ad_set['id']}")
         return ad_set['id']
@@ -116,3 +119,26 @@ class MetaCampaignManager:
         ad = self.account.create_ad(params=params)
         print(f"광고 생성 완료: {ad['id']}")
         return ad['id']
+
+    def find_campaign_by_name(self, name):
+        """이름으로 기존 캠페인을 찾습니다."""
+        if self.dry_run:
+            return None
+        
+        campaigns = self.account.get_campaigns(fields=['id', 'name'], params={'filtering': [{'field': 'name', 'operator': 'EQUAL', 'value': name}]})
+        for campaign in campaigns:
+            if campaign['name'] == name:
+                return campaign['id']
+        return None
+
+    def find_ad_set_by_name(self, campaign_id, name):
+        """이름으로 기존 광고 세트를 찾습니다."""
+        if self.dry_run:
+            return None
+
+        campaign = Campaign(campaign_id)
+        ad_sets = campaign.get_ad_sets(fields=['id', 'name'], params={'filtering': [{'field': 'name', 'operator': 'EQUAL', 'value': name}]})
+        for ad_set in ad_sets:
+            if ad_set['name'] == name:
+                return ad_set['id']
+        return None

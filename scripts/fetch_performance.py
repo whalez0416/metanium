@@ -1,3 +1,4 @@
+import sys
 import os
 import pandas as pd
 from datetime import datetime, timezone
@@ -6,12 +7,16 @@ from facebook_business.api import FacebookAdsApi
 from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.adobjects.adsinsights import AdsInsights
 from facebook_business.adobjects.ad import Ad
-from rule_engine import PlaybookRuleEngine
-from rule_engine_ab import CampaignABTestEngine
 import json
 
-# .env 파일 로드
-load_dotenv()
+# 프로젝트 루트를 path에 추가하여 모듈 임포트 가능하게 함
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from core.rule_engine import PlaybookRuleEngine
+from core.rule_engine_ab import CampaignABTestEngine
+
+# .env 파일 로드 (루트 폴더 기준)
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env'))
 
 def fetch_meta_performance():
     """
@@ -123,7 +128,7 @@ def fetch_meta_performance():
         print(f"Meta API 호출 중 오류 발생: {e}")
         return None
 
-def log_suggestions(df, log_path='decision_history.json'):
+def log_suggestions(df, log_path='data/decision_history.json'):
     """
     'PAUSE' 또는 'SCALE UP' 제안을 decision_history.json에 PENDING 상태로 기록합니다.
     """

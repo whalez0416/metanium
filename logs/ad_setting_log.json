@@ -1,0 +1,21 @@
+[
+    {
+        "timestamp": "2026-04-07 21:50:00",
+        "event_type": "CAMPAIGN_CREATION",
+        "campaign_name": "[TEST] Metanium_AI_Optimization_260407",
+        "campaign_id": "6899502873954",
+        "details": {
+            "objective": "OUTCOME_TRAFFIC",
+            "adset_name": "AI_Test_Group_01",
+            "daily_budget": 10000,
+            "targeting": "Seoul 30-60 Women",
+            "strategy": {
+                "target_cpa": 15000,
+                "protect_hours": 24,
+                "auto_pilot": true
+            }
+        },
+        "reason": "AI optimization strategy test and system verification",
+        "result": "SUCCESS"
+    }
+]

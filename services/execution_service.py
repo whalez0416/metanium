@@ -1,3 +1,4 @@
+import sys
 import os
 import json
 from datetime import datetime
@@ -6,7 +7,11 @@ from facebook_business.api import FacebookAdsApi
 from facebook_business.adobjects.ad import Ad
 from facebook_business.adobjects.adset import AdSet
 
-load_dotenv()
+# 프로젝트 루트를 path에 추가하여 모듈 임포트 가능하게 함
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# .env 파일 로드 (루트 폴더 기준)
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env'))
 
 class MetaExecutionService:
     def __init__(self, dry_run=None):

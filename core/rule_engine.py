@@ -4,7 +4,7 @@ import json
 import os
 
 class PlaybookRuleEngine:
-    def __init__(self, playbook_path='marketer_playbook.txt', target_cpa=20000):
+    def __init__(self, playbook_path='data/marketer_playbook.txt', target_cpa=20000):
         self.playbook_path = playbook_path
         self.rules = self._load_rules()
         self.global_target_cpa = target_cpa
@@ -20,7 +20,7 @@ class PlaybookRuleEngine:
 
     def load_campaign_configs(self):
         """캠페인별 설정을 campaign_configs.json에서 로드합니다."""
-        config_path = 'campaign_configs.json'
+        config_path = 'data/campaign_configs.json'
         if os.path.exists(config_path):
             try:
                 with open(config_path, 'r', encoding='utf-8') as f:

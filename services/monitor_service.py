@@ -1,11 +1,17 @@
+import sys
+import os
 import time
 import datetime
 import pandas as pd
-from fetch_performance import fetch_meta_performance, log_suggestions
-from notifier import DiscordNotifier
-from rule_engine_ab import CampaignABTestEngine
-from execution_service import MetaExecutionService
-from rule_engine import PlaybookRuleEngine
+
+# 프로젝트 루트를 path에 추가하여 모듈 임포트 가능하게 함
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from scripts.fetch_performance import fetch_meta_performance, log_suggestions
+from core.notifier import DiscordNotifier
+from core.rule_engine_ab import CampaignABTestEngine
+from services.execution_service import MetaExecutionService
+from core.rule_engine import PlaybookRuleEngine
 
 class MonitorService:
     def __init__(self, interval_minutes=60):

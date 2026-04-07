@@ -16,5 +16,17 @@
         "protect_hours": 72,
         "max_daily_budget": 100000,
         "auto_pilot": true
+    },
+    "[260401] 리드수집_민병원_갑상선센터_신규": {
+        "target_cpa": 15000,
+        "protect_hours": 72,
+        "max_daily_budget": 100000,
+        "auto_pilot": true
+    },
+    "[TEST] Metanium_AI_Optimization_260407": {
+        "target_cpa": 15000,
+        "protect_hours": 24,
+        "max_daily_budget": 50000,
+        "auto_pilot": true
     }
 }
