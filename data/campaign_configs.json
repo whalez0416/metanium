@@ -28,5 +28,25 @@
         "protect_hours": 24,
         "max_daily_budget": 50000,
         "auto_pilot": true
+    },
+    "[260423] 리드수집_갑상선암_조기검진_캠페인": {
+        "target_cpa": 20000,
+        "protect_hours": 48,
+        "max_daily_budget": 200000,
+        "auto_pilot": true
+    },
+    "[260423] 리드수집_갑상선암_효과분석_A/B": {
+        "target_cpa": 18000,
+        "protect_hours": 72,
+        "max_daily_budget": 300000,
+        "auto_pilot": true,
+        "ab_test_mode": true
+    },
+    "[2026-04-23] 갑상선암_고효율_리드수집_AB테스트": {
+        "target_cpa": 18000,
+        "protect_hours": 72,
+        "max_daily_budget": 300000,
+        "auto_pilot": true,
+        "ab_test_mode": true
     }
 }
